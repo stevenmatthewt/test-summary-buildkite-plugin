@@ -25,13 +25,13 @@ module TestSummaryBuildkitePlugin
     end
 
     def annotate(markdown)
-      markdown = Truncater.new(
+      markdownbig = Truncater.new(
         max_size: 100_000_000,
         inputs: inputs,
         formatter_opts: options[:formatter],
         fail_on_error: false
       ).markdown
-      File.write('bugcrowdinput.md', markdown)
+      File.write('bugcrowdinput.md', markdownbig)
       Agent.run('artifact', 'upload', 'bugcrowdinput.md')
       Agent.run('annotate', '--context', context, '--style', style, stdin: markdown)
     end
